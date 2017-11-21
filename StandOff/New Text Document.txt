@@ -1,0 +1,123 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class Bullet extends JFrame implements KeyListener, Runnable{
+
+    Image background  = new ImageIcon("images/background.jpg").getImage();
+    Image leftPlayer  = new ImageIcon("images/leftPlayer.png").getImage();
+    Image leftBullet  = new ImageIcon("images/blueBullet.png").getImage();
+    Image rightPlayer = new ImageIcon("images/redBullet.png").getImage();
+    Image rightBullet = new ImageIcon("images/background.png").getImage();
+
+    int NumberOfBullets = 0;
+
+
+    int frameW = 1920, frameH = 1200;
+
+    int leftBulletX[]  = new int[20];
+    int leftBulletY[]  = new int[20];
+    int rightBulletX[] = new int[20];
+    int rightBulletY[] = new int[20];
+
+    int leftPlayerX = 70;
+    int leftPlayerY = 100;
+    int rightPlayerX = 700;
+    int rightPlayerY = 700;
+
+    boolean isShot[] = new boolean[10];
+
+    Thread thread = new Thread(this);
+
+
+    public Bullet()
+    {
+        setSize(frameW,frameH );
+        setLocation(0,0);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+        addKeyListener(this);
+
+        for(int i=0; i<leftBulletX.length; i++){
+            isShot[i] = false;
+            leftBulletX[i] = leftPlayerX+50;
+            leftBulletY[i] = leftPlayerY +10;
+        }
+        thread.start();
+    }
+
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e)
+    {
+        if(e.getKeyCode() == KeyEvent.VK_SPACE)
+        {
+            isShot[NumberOfBullets] = true;
+            leftBulletX[NumberOfBullets] = leftPlayerX+50;
+            leftBulletY[NumberOfBullets] = leftPlayerY +10;
+            NumberOfBullets++;
+
+            if(NumberOfBullets>leftBulletX.length -1)
+                NumberOfBullets = 0;
+        }
+
+
+        if(e.getKeyCode() == KeyEvent.VK_W)
+            {leftPlayerY -=100;
+             leftBulletY[NumberOfBullets] = leftPlayerY;}
+
+        if(e.getKeyCode() == KeyEvent.VK_S)
+            {leftPlayerY +=100;
+             leftBulletY[NumberOfBullets] = leftPlayerY;}
+    }
+
+    @Override
+    public void run()
+    {
+        while(true)
+        {
+            for(int i=0; i<leftBulletX.length; i++) {
+                if (isShot[i])
+                    leftBulletX[i] += 20;
+
+                if (leftBulletX[i] > frameW) {
+                    isShot[i] = false;
+                    leftBulletX[i] = leftPlayerX + 50;
+                    leftBulletY[i] = leftPlayerY + 10;
+                }
+            }
+
+            try{
+                Thread.sleep(20);
+               }catch (InterruptedException e){}
+               repaint();
+        }
+    }
+
+
+
+        public void paint(Graphics g)
+        {
+        g.drawImage(background,0,0,null);
+
+        for(int 1 = 0; i<left
+        }
+
+
+    public static void main(String[] args) {
+        new Bullet();
+    }
+
+
+}
