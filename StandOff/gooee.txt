@@ -14,32 +14,37 @@ import javafx.scene.media.MediaPlayer;
 
 public class GooEee extends JPanel implements ActionListener, KeyListener, Runnable{
 
+    int frameW = 1920;
+
+    int BupJumpDistance = 150;
+    int BdownJumpDistance = 150;
+    int BleftJumpDistance = 150;
+    int BrightJumpDistance = 150;
+
+    int RupJumpDistance = 150;
+    int RdownJumpDistance = 150;
+    int RleftJumpDistance = 150;
+    int RrightJumpDistance = 150;
+
+
+
     int x=50;
-
-    int leftBulletX[]  = new int[10];
-    int leftBulletY[]  = new int[10];
-    int rightBulletX[] = new int[10];
-    int rightBulletY[] = new int[10];
-
-    private JFrame frame = new JFrame("StandOff(TM)");
-    private JPanel panel = new JPanel();
-
-    boolean isShot[] = new boolean[10];
-
-
-
-        public Player leftPlayer = new Player("Jack", 10, 100,ImageIO.read(new File("images/leftPlayer.png")));
-        public Player rightPlayer = new Player("Bob", 1000, 100,ImageIO.read(new File("images/rightPlayer.png")));
-        //BufferedImage BG = new BufferedImage(ImageIO.read(new File("images/background.png")));
-
-
-
     Graphics g;
     Thread theThread;
     boolean gameOn;
 
 
 
+    private JFrame frame = new JFrame("StandOff(TM)");
+
+
+    public Player leftPlayer = new Player("Jack", 160, 350,ImageIO.read(new File("images/leftPlayer.png")));
+    public Player rightPlayer = new Player("Bob", 1450, 350,ImageIO.read(new File("images/rightPlayer.png")));
+
+
+    Image background  = new ImageIcon("images/background.jpg").getImage();
+    Image leftBullet  = new ImageIcon("images/blueBullet.png").getImage();
+    Image rightBullet = new ImageIcon("images/redBullet.png").getImage();
 
 
     public GooEee() throws IOException {
@@ -57,25 +62,8 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
 
         frame.addKeyListener(this);
 
-        for(int i=0; i<leftBulletX.length; i++){
-            isShot[i] = false;
-            leftBulletX[i] = leftPlayerX+50;
-            leftBulletY[i] = leftPlayerY +10;
-        }
-
-        for(int i=0; i<rightBulletX.length; i++){
-            isShot[i] = false;
-            rightBulletX[i] = rightPlayerX+50;
-            rightBulletY[i] = rightPlayerY +10;
-        }
-
-        thread.start();
-
-
-
-
-
-
+        gameOn = true;
+        start();
 
 
     }
@@ -84,36 +72,17 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
 
 
 
-        public void paint(Graphics g)
-        {
-            g.drawImage(background,0,0,null);
+    public void paint(Graphics g)
+    {
+        g.drawImage(background,0,0,null);
+       // g.drawImage(leftPlayer2,Bullet.getLeftPlayerX(),Bullet.getLeftPlayerY(),null);
+       // g.drawImage(rightPlayer2,Bullet.getLeftPlayerX(),Bullet.getRightPlayerY(),null);
+        leftPlayer.drawPlayer(g);
+        rightPlayer.drawPlayer(g);
+        g.drawImage(leftBullet,x + 200,x,null);
+        x+=5;
 
-            for(int i = 0; i< leftBulletX.length; i++)
-            {
-                if(isShot[i])
-                {
-                    g.drawImage(leftBullet,leftBulletX[i],leftBulletY[i],null);
-                }
-            }
-
-            for(int i = 0; i< rightBulletX.length; i++)
-            {
-                if(isShot[i])
-                {
-                    g.drawImage(rightBullet,rightBulletX[i],rightBulletY[i],null);
-                }
-            }
-
-            g.drawImage(leftPlayer,leftPlayerX,leftPlayerY,null);
-            g.drawImage(rightPlayer,rightPlayerX,rightPlayerY,null);
-
-            leftPlayer.drawPlayer(g);
-            rightPlayer.drawPlayer(g);
-            g.setColor(Color.RED);
-            g.fillOval( x + 200,x,25,25);
-            x+=50;
-
-        }
+    }
 
 
 
@@ -136,68 +105,71 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_W) {
-            leftPlayer.setyPosition(leftPlayer.getyPosition() - 200);
+            leftPlayer.setyPosition(leftPlayer.getyPosition() - BupJumpDistance);
 
 
 
         }
         else if (e.getKeyCode() == KeyEvent.VK_S) {
-            leftPlayer.setyPosition(leftPlayer.getyPosition() + 200);
+            leftPlayer.setyPosition(leftPlayer.getyPosition() + BdownJumpDistance);
 
-            //hitBottomWall();
+
 
 
         }
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            rightPlayer.setyPosition(rightPlayer.getyPosition() - 200);
-            //hitTopWall();
+            rightPlayer.setyPosition(rightPlayer.getyPosition() - RupJumpDistance);
+
 
 
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            rightPlayer.setyPosition(rightPlayer.getyPosition() + 200);
-            //hitBottomWall();
+            rightPlayer.setyPosition(rightPlayer.getyPosition() + RdownJumpDistance);
+
 
 
         }
         else if (e.getKeyCode() == KeyEvent.VK_A) {
-            leftPlayer.setxPosition(leftPlayer.getxPosition() - 150);
-
-            //wallHitDetection();
-
-
+            leftPlayer.setxPosition(leftPlayer.getxPosition() - BleftJumpDistance);
         }
-        else if (e.getKeyCode() == KeyEvent.VK_D) {
-            leftPlayer.setxPosition(leftPlayer.getxPosition() + 150);
 
-            //wallHitDetection();
+        else if (e.getKeyCode() == KeyEvent.VK_D) {
+            leftPlayer.setxPosition(leftPlayer.getxPosition() + BrightJumpDistance);
+
+
 
 
         }
         else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            rightPlayer.setxPosition(rightPlayer.getxPosition() - 150);
+            rightPlayer.setxPosition(rightPlayer.getxPosition() - RleftJumpDistance);
 
-            //wallHitDetection();
+
 
 
         }
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            rightPlayer.setxPosition(rightPlayer.getxPosition() + 150);
+            rightPlayer.setxPosition(rightPlayer.getxPosition() + RrightJumpDistance);
 
-
-            //wallHitDetection();
-        }
-
-
-        else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-        run();
-        start();
 
 
         }
 
 
+        else if (e.getKeyCode() == KeyEvent.VK_SPACE)
+        {
 
+
+        }
+
+        else if (e.getKeyCode() == KeyEvent.VK_NUMPAD0)
+        {
+
+
+        }
+
+
+        leftPlayerWallHit();
+        rightPlayerWallHit();
         repaint();
     }
 
@@ -206,7 +178,7 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
     @Override
     public void keyReleased(KeyEvent e) {
 
-             if(e.getKeyCode() == KeyEvent.VK_W) {}
+        if(e.getKeyCode() == KeyEvent.VK_W) {}
         else if(e.getKeyCode() == KeyEvent.VK_S) {}
 
         else if(e.getKeyCode() == KeyEvent.VK_UP) {}
@@ -214,28 +186,48 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
 
     }
 
-    public void hitTopwall()
+    public void leftPlayerWallHit()
     {
-        while(leftPlayer.getyPosition() < -1)
+        if(leftPlayer.getxPosition() < -1  || leftPlayer.getxPosition() >= 750  || leftPlayer.getyPosition() < 1 || leftPlayer.getyPosition() >= 800)
         {
-        //leftPlayer.setyPosition(leftPlayer.getyPosition() == 0);
+
+
+            try {
+                leftPlayer.setImage(ImageIO.read(new File("images/blueBullet.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            JOptionPane.showMessageDialog(null, "blue hit the wall");
+
+        }
+    }
+
+
+    public void rightPlayerWallHit()
+    {
+        if(rightPlayer.getxPosition() > 1650  || rightPlayer.getxPosition() <= 850  || rightPlayer.getyPosition() < 1 || rightPlayer.getyPosition() >= 800)
+        {
+            JOptionPane.showMessageDialog(null, "red hit the wall");
+            System.exit(0);
+
         }
     }
 
 
 
-    //  public void paint(Graphics graphics){
-  //      graphics.drawImage(background.getImage(),0,0,null);
- //   }
+//  public void paint(Graphics graphics){
+//      graphics.drawImage(background.getImage(),0,0,null);
+//   }
 
-    //JB - called automatically by the start() method below. Because the game needs to draw information onto the screen
-    //and listen for keyboard/other events at the same time, an extra thread of execution is recommended. The run()
-    //method basically ensures that the pane of the JFrame window gets painted/updated every 20 milliseconds
-    //giving us 50 frames per second as such. The thread sleeps in between these updates meaning that the rest
-    //of the time events can be listened for and handled without any conflict
+//JB - called automatically by the start() method below. Because the game needs to draw information onto the screen
+//and listen for keyboard/other events at the same time, an extra thread of execution is recommended. The run()
+//method basically ensures that the pane of the JFrame window gets painted/updated every 20 milliseconds
+//giving us 50 frames per second as such. The thread sleeps in between these updates meaning that the rest
+//of the time events can be listened for and handled without any conflict
 
-    //thread really needed only because we need it to continually repaint() the screen if we want to draw the bullets moving as well
-    //as the enemy invaders, otherwise we could have done without it as the key press actions could be set up to make calls to paint() as they go
+//thread really needed only because we need it to continually repaint() the screen if we want to draw the bullets moving as well
+//as the enemy invaders, otherwise we could have done without it as the key press actions could be set up to make calls to paint() as they go
 
 
 
@@ -243,52 +235,38 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
 
     public void run()
     {
-        while(true)
+        g = getGraphics();
+
+        while(gameOn)
         {
-            for(int i=0; i<leftBulletX.length; i++) {
-                if (isShot[i])
-                    leftBulletX[i] += 20;
+            try
+            {
+                paint(g);
 
-                if (leftBulletX[i] > frameW) {
-                    isShot[i] = false;
-
-                }
+                Thread.sleep(20);
             }
-
-
-            for(int i=0; i<rightBulletX.length; i++) {
-                if (isShot[i])
-                    rightBulletX[i] -= 20;
-
-                if (rightBulletX[i] > frameW) {
-                    isShot[i] = false;
-
-                }
+            catch (InterruptedException e)
+            {
+                break;
             }
-
-
-
-            try{
-                Thread.sleep(30);
-            }catch (InterruptedException e){}
-            repaint();
         }
+        System.out.println("Game now over!");
+
     }
 
-    //JB - As the class implements the Runnable interface, this method will be called automatically when an instance of it is created
-    //in the main() above. It basically creates a new Thread object, links it with the game instance and sets the thread in motion
-    //with the call to start() on the thread reference
+//JB - As the class implements the Runnable interface, this method will be called automatically when an instance of it is created
+//in the main() above. It basically creates a new Thread object, links it with the game instance and sets the thread in motion
+//with the call to start() on the thread reference
+
 
     public void start()
-    {
-        if (theThread == null)
-        {
-            System.out.println("Creating new thread");
-            theThread = new Thread(this);
-            theThread.start();
-        }
-    }
+      {
+          if (theThread == null)
+          {
+              System.out.println("Creating new thread");
+              theThread = new Thread(this);
+              theThread.start();
+          }
 
-
-
+  }
 }
