@@ -83,19 +83,18 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
 
 
 
+
         if(shot)
         {
-            g.setColor(Color.cyan);
-            g.fillOval( bullet.x, bullet.y, bullet.width, bullet.height +5);
-            bullet.x += 30;
+            g.drawImage(leftBullet,bulletY+250,bulletX+25,null);
+            bulletY+= 40;
         }
 
 
-        if(shot)
+        if(shot2)
         {
-            g.setColor(Color.red);
-            g.fillOval( bullet2.x, bullet2.y, bullet2.width, bullet2.height +5);
-            bullet.x -= 30;
+           g.drawImage(rightBullet,bulletY2-80,bulletX2+40,null);
+            bulletY2 -= 40;
         }
     }
 
@@ -151,11 +150,11 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
             rightPlayer.setxPosition(rightPlayer.getxPosition() + XjumpDistance);
 
 
-        } else if (e.getKeyCode() == KeyEvent.VK_NUMPAD0) {
+        } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
 
             try {
-                MusicFilePlayer.player2Sound("audio/p1gun.wav");
+                MusicFilePlayer.player2Sound("audio/p2gun.wav");
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -166,16 +165,20 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
                 readyToFire2 = true;
 
             if (readyToFire2 == true)
-                bulletY = leftPlayer.getxPosition();
-            bulletX = leftPlayer.getyPosition();
-            bullet = new Rectangle(bulletY + 265, bulletX + 45, 50, 5);
-            shot = true;
+                bulletY2 = rightPlayer.getxPosition();
+            bulletX2 = rightPlayer.getyPosition();
+            bullet2 = new Rectangle(bulletY2 + 65, bulletX2 + 45, 50, 5);
+            shot2 = true;
 
 
 
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 
-
+            try {
+                MusicFilePlayer.player1Sound("audio/p1gun.wav");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
 
 
             if (bullet == null)
@@ -194,13 +197,13 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
 
     }
 
-        //leftPlayerBulletLand();
+        leftPlayerBulletLand();
 
-        //leftPlayerWallHit();
-        //rightPlayerWallHit();
+        leftPlayerWallHit();
+        rightPlayerWallHit();
 
 
-       //bx += xVelocity;
+
 
 
         repaint();
@@ -218,6 +221,12 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
          bullet.x += 10;
     }
 
+    public void shoot2()
+    {
+        if(shot2)
+            bullet2.x -= 10;
+    }
+
 
 
 
@@ -231,13 +240,9 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
         else if(e.getKeyCode() == KeyEvent.VK_UP) {}
         else if(e.getKeyCode() == KeyEvent.VK_DOWN){}
 
-        else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+        else if(e.getKeyCode() == KeyEvent.VK_SPACE)
         {
-        /*    readyToFire = false;
-            if(bullet.y <= -10)
-                bullet = new Rectangle(0,0,0,0);
-                shot = false;
-                readyToFire = true;*/
+
         }
 
     }
@@ -245,8 +250,12 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
     public void leftPlayerWallHit(){
         if(leftPlayer.getxPosition() < -1  || leftPlayer.getxPosition() >= 750  || leftPlayer.getyPosition() < -100 || leftPlayer.getyPosition() >= 800)
         {
-
-            //MusicFilePlayer.electricFence("audio/ESPARK1");
+            try {
+                MusicFilePlayer.electricFence("audio/ESPARK1.wav");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+           ;
             JOptionPane.showMessageDialog(null, "blue hit the wall");
             frame.setVisible(false);
             MainGUI();
@@ -258,6 +267,12 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
     {
         if(rightPlayer.getxPosition() > 1650  || rightPlayer.getxPosition() <= 850  || rightPlayer.getyPosition() < -100 || rightPlayer.getyPosition() >= 800)
         {
+            try {
+                MusicFilePlayer.electricFence("audio/ESPARK1.wav");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             JOptionPane.showMessageDialog(null, "red hit the wall");
             frame.setVisible(false);
             MainGUI();
@@ -302,9 +317,10 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
             try
             {
                 shoot();
+                shoot2();
                 paint(g);
 
-                Thread.sleep(30);
+                Thread.sleep(10);
             }
             catch (InterruptedException e)
             {
@@ -426,10 +442,17 @@ public class GooEee extends JPanel implements ActionListener, KeyListener, Runna
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                int answer = JOptionPane.showConfirmDialog(null,"Are you sure you want to quit?","Quitter",JOptionPane.YES_NO_OPTION);
 
-                System.exit(0);
+                if(answer == 0)
+                {
+                    System.exit(0);
+                }
+
+                else {
 
 
+                }
             }
         });
     }

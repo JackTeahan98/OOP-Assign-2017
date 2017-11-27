@@ -18,7 +18,7 @@ public class MusicFilePlayer
     public static void player1Sound(String path) throws Exception
     {
         // open the sound file as a Java input stream
-        String p1sound = "audio/p1gun.wav";
+        String p1sound = "audio/p2l.wav";
         InputStream in = new FileInputStream(p1sound);
 
         // create an audiostream from the inputstream
@@ -31,40 +31,26 @@ public class MusicFilePlayer
 
     public static void player2Sound(String path) throws Exception
     {
-        // open the sound file as a Java input stream
+
         String p1sound = "audio/p1gun.wav";
         InputStream in = new FileInputStream(p1sound);
-
-        // create an audiostream from the inputstream
         AudioStream audioStream = new AudioStream(in);
-
-        // play the audio clip with the audioplayer class
         AudioPlayer.player.start(audioStream);
     }
 
     public static void mainSound(String path) throws Exception
     {
-        // open the sound file as a Java input stream
         String gongFile = "audio/WgameplayMusic.wav";
         InputStream in = new FileInputStream(gongFile);
-
-        // create an audiostream from the inputstream
         AudioStream audioStream = new AudioStream(in);
-
-        // play the audio clip with the audioplayer class
         AudioPlayer.player.start(audioStream);
     }
 
     public static void electricFence(String path) throws Exception
     {
-        // open the sound file as a Java input stream
         String gongFile = "audio/ESPARK1.wav";
         InputStream in = new FileInputStream(gongFile);
-
-        // create an audiostream from the inputstream
         AudioStream audioStream = new AudioStream(in);
-
-        // play the audio clip with the audioplayer class
         AudioPlayer.player.start(audioStream);
     }
 
