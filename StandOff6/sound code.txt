@@ -1,0 +1,16 @@
+import java.io.File;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
+File shoot1 = new File("NAME OF FILE.WAV");
+
+public static void shootSound(File Sound)
+{
+try{
+Clip clip = AudioSystem getClip();
+clip.open(AudioSystem.getAudioInputStream(Sound));
+clip.start();
+
+Thread.sleep(clip.getMicrosecondLength()/1000);
+
+}catch(Exception e)
