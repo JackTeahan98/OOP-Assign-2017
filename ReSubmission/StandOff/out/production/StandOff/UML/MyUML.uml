@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="0.0">Player</node>
+    <node x="289.0" y="100.0">MusicFilePlayer</node>
+    <node x="65.40000000000003" y="412.0">GooEee</node>
+    <node x="180.75000000000003" y="1594.0">StandOff</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="GooEee" target="MusicFilePlayer">
+      <point x="86.0" y="-566.0" />
+      <point x="280.40000000000003" y="387.0" />
+      <point x="341.0" y="387.0" />
+      <point x="-52.0" y="81.0" />
+    </edge>
+    <edge source="GooEee" target="Player">
+      <point x="-86.0" y="-566.0" />
+      <point x="108.40000000000003" y="387.0" />
+      <point x="67.25" y="387.0" />
+      <point x="-67.25" y="181.0" />
+    </edge>
+    <edge source="StandOff" target="GooEee">
+      <point x="0.0" y="-26.0" />
+      <point x="266.25" y="1569.0" />
+      <point x="258.90000000000003" y="1569.0" />
+      <point x="64.5" y="566.0" />
+    </edge>
+    <edge source="StandOff" target="MusicFilePlayer">
+      <point x="57.0" y="-26.0" />
+      <point x="323.25" y="1569.0" />
+      <point x="445.0" y="1569.0" />
+      <point x="52.0" y="81.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.30000000000000004" x="-621.2639145826199" y="1252.083333333334" />
+  <SelectedNodes>
+    <node>GooEee</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
